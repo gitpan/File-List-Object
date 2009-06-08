@@ -1,4 +1,4 @@
-File::List::Object version 0.187
+File::List::Object version 0.188
 
 DESCRIPTION
     This package provides for creating a list of files (from different
@@ -25,10 +25,10 @@ INSTALLATION
             ./Build install
 
 DEPENDENCIES
-    Dependencies of this module that are non-core in perl 5.8.1 include
-    Moose version 0.79, Exception::Class version 1.29, Params::Util version
-    0.35, MooseX::AttributeHelpers version 0.17, and version.pm version
-    0.76.
+    Dependencies of this module that are non-core in perl 5.8.1 (which is
+    the minimum version of Perl required) include Moose version 0.79,
+    Exception::Class version 1.29, Params::Util version 0.35,
+    MooseX::AttributeHelpers version 0.17, and version.pm version 0.76.
 
 LICENCE AND COPYRIGHT
     Copyright (c) 2009, Curtis Jewell `<csjewell@cpan.org>'.

@@ -1,6 +1,6 @@
 ---
 name: File-List-Object
-version: 0.187
+version: 0.188
 author:
   - 'Curtis Jewell <csjewell@cpan.org>'
 abstract: 'Object containing a list of files (filelist, packlist).'
@@ -19,7 +19,7 @@ build_requires:
 provides:
   File::List::Object:
     file: lib/File/List/Object.pm
-    version: 0.187
+    version: 0.188
 generated_by: Module::Build version 0.33
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
