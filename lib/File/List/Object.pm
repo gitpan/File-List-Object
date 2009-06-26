@@ -4,7 +4,7 @@ package File::List::Object;
 
 =begin readme text
 
-File::List::Object version 0.188
+File::List::Object version 0.190
 
 =end readme
 
@@ -16,7 +16,7 @@ File::List::Object - Object containing a list of files (filelist, packlist).
 
 =head1 VERSION
 
-This document describes File::List::Object version 0.188.
+This document describes File::List::Object version 0.190.
 
 =for readme continue
 
@@ -135,7 +135,7 @@ use Exception::Class (
 	},
 );
 
-use version; $VERSION = version->new('0.189')->numify;
+use version; $VERSION = version->new('0.190')->numify;
 
 my %sortcache; # Defined at this level so that the cache does not
 			   # get reset each time _sorter is called.
@@ -195,7 +195,9 @@ sub clone {
 	}
 
 	# Add filelist passed in.
-	$self->_set_files_hashref( { map { $_ => 1 } $source->_get_files_array() } );
+	## no critic(ProhibitVoidMap)
+	$self->_set_files_hashref(
+		{ map { $_ => 1 } $source->_get_files_array() } );
 
 	return $self;
 } ## end sub clone
@@ -383,7 +385,7 @@ sub readdir { ## no critic 'ProhibitBuiltinHomonyms'
 				# Add the file!
 				$self->_add_file( $filespec, 1 );
 			}
-		} ## end if ( ( $file ne curdir...
+		} ## end if ( ( $file ne curdir...))
 
 		# Next one, please?
 		$file = $dir_object->read();
