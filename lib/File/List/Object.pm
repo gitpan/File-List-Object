@@ -4,7 +4,7 @@ package File::List::Object;
 
 =begin readme text
 
-File::List::Object version 0.190
+File::List::Object version 0.200
 
 =end readme
 
@@ -16,7 +16,7 @@ File::List::Object - Object containing a list of files (filelist, packlist).
 
 =head1 VERSION
 
-This document describes File::List::Object version 0.190.
+This document describes File::List::Object version 0.200.
 
 =for readme continue
 
@@ -123,6 +123,7 @@ use vars           qw( $VERSION                          );
 use Params::Util   qw( _INSTANCE _STRING _NONNEGINT      );
 use IO::Dir        qw();
 use IO::File       qw();
+use English qw(-no_match_vars);
 use Exception::Class (
 	'File::List::Object::Exception' => {
 		'description' => 'File::List::Object error',
@@ -135,7 +136,9 @@ use Exception::Class (
 	},
 );
 
-use version; $VERSION = version->new('0.190')->numify;
+use version; $VERSION = version->new('0.200')->numify;
+
+#
 
 my %sortcache; # Defined at this level so that the cache does not
 			   # get reset each time _sorter is called.
@@ -181,6 +184,8 @@ a deep copy, so that the original object is not modified when the new one
 is.
 
 =cut
+
+# Moose provides ->new(), so I don't need to.
 
 sub clone {
 	my $self   = shift->new();
@@ -260,8 +265,7 @@ sub _sorter {
 #####################################################################
 # Exception output methods.
 
-sub File::List::Object::Exception::full_message
-{ ## no critic 'Capitalization'
+sub File::List::Object::Exception::full_message {
 	my $self = shift;
 
 	my $string =
@@ -275,8 +279,7 @@ sub File::List::Object::Exception::full_message
 	return $string;
 } ## end sub File::List::Object::Exception::full_message
 
-sub File::List::Object::Exception::Parameter::full_message
-{ ## no critic 'Capitalization'
+sub File::List::Object::Exception::Parameter::full_message {
 	my $self = shift;
 
 	my $string =
@@ -309,6 +312,9 @@ Returns the number of files in the list.
 Empties an object. 
 
 =cut
+
+# This routine exists because the 'clear' that MooseX::AttributeHelpers
+# provides does not return the object, and we'd like it to.
 
 sub clear {
 	my $self = shift;
@@ -363,7 +369,7 @@ sub readdir { ## no critic 'ProhibitBuiltinHomonyms'
 	my $dir_object = IO::Dir->new($dir);
 	if ( !defined $dir_object ) {
 		File::List::Object::Exception->throw(
-			"Error reading directory $dir: $!");
+			"Error reading directory $dir: $OS_ERROR");
 	}
 
 	# Read a file from the directory.
@@ -425,7 +431,7 @@ sub load_file {
 	my $fh = IO::File->new( $packlist, 'r' );
 	if ( not defined $fh ) {
 		File::List::Object::Exception->throw(
-			"Error reading packlist file $packlist: $!");
+			"Error reading packlist file $packlist: $OS_ERROR");
 	}
 	my @files_list = <$fh>;
 	$fh->close;
@@ -630,7 +636,7 @@ sub move {
 Moves the files that would be in the first directory passed in into the 
 second directory within the filelist.
 
-This does not mode the files on disk, and the second directory and the files
+This does not modify the files on disk, and the second directory and the files
 in it need not exist yet.
 
 =cut
@@ -734,7 +740,7 @@ subclasses in the C<< File::List::Object::Exception >> subtree.
 An invalid parameter was passed in. More information about why it was 
 invalid may be returned.
 
-(Returned as a C<< File::List::Object::Exception::Parameter >>> object)
+(Returned as a C<< File::List::Object::Exception::Parameter >> object)
 
 =item Error reading directory %s: %s
 
@@ -763,26 +769,36 @@ L<version.pm|version> version 0.76.
 
 None reported.
 
-=head1 BUGS AND LIMITATIONS
+=head1 BUGS AND LIMITATIONS (SUPPORT)
 
-No bugs have been reported.
+The L<clone()|/clone> routine did not work in versions previous to 0.189.
 
-Please report any bugs or feature requests to
-C<bug-file-list-object@rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org>.
+Bugs should be reported via: 
+
+1) The CPAN bug tracker at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=File-List-Object>
+if you have an account there.
+
+2) Email to E<lt>bug-File-List-Object@rt.cpan.orgE<gt> if you do not.
+
+For other issues, contact the topmost author.
 
 =head1 AUTHOR
 
 Curtis Jewell, C<< <csjewell@cpan.org> >>
 
+=head1 SEE ALSO
+
+L<http://csjewell.comyr.com/perl/>
+
 =for readme continue
 
-=head1 LICENCE AND COPYRIGHT
+=head1 LICENSE AND COPYRIGHT
 
 Copyright (c) 2009, Curtis Jewell C<< <csjewell@cpan.org> >>.
 
 This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlartistic>.
+modify it under the same terms as Perl itself, either version
+5.8.1 or any later version. See L<perlartistic> and L<perlgpl>.
 
 =for readme stop
 

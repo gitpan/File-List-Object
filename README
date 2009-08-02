@@ -1,4 +1,4 @@
-File::List::Object version 0.190
+File::List::Object version 0.200
 
 DESCRIPTION
     This package provides for creating a list of files (from different
@@ -30,9 +30,10 @@ DEPENDENCIES
     Exception::Class version 1.29, Params::Util version 0.35,
     MooseX::AttributeHelpers version 0.17, and version.pm version 0.76.
 
-LICENCE AND COPYRIGHT
+LICENSE AND COPYRIGHT
     Copyright (c) 2009, Curtis Jewell `<csjewell@cpan.org>'.
 
     This module is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself. See perlartistic.
+    under the same terms as Perl itself, either version 5.8.1 or any later
+    version. See perlartistic and perlgpl.
 
