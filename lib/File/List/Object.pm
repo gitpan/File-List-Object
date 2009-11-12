@@ -4,7 +4,7 @@ package File::List::Object;
 
 =begin readme text
 
-File::List::Object version 0.200
+File::List::Object version 0.201
 
 =end readme
 
@@ -115,16 +115,14 @@ have to be loaded from disk.
 
 #<<<
 use 5.008001;
-use Moose;
-use MooseX::AttributeHelpers;
+use Moose 0.90;
 use File::Spec::Functions
   qw( catdir catfile splitpath splitdir curdir updir     );
-use vars           qw( $VERSION                          );
-use Params::Util   qw( _INSTANCE _STRING _NONNEGINT      );
-use IO::Dir        qw();
-use IO::File       qw();
-use English qw(-no_match_vars);
-use Exception::Class (
+use English           qw(-no_match_vars);
+use Params::Util 0.35 qw( _INSTANCE _STRING _NONNEGINT   );
+use IO::Dir           qw();
+use IO::File          qw();
+use Exception::Class 1.29 (
 	'File::List::Object::Exception' => {
 		'description' => 'File::List::Object error',
 	},
@@ -136,7 +134,8 @@ use Exception::Class (
 	},
 );
 
-use version; $VERSION = version->new('0.200')->numify;
+our $VERSION = '0.201';
+$VERSION =~ s/_//ms;
 
 #
 
@@ -147,17 +146,17 @@ my %sortcache; # Defined at this level so that the cache does not
 # The only attribute of this object.
 
 has '_files' => (
-	metaclass => 'Collection::Hash',
-	is        => 'rw',
-	isa       => 'HashRef',
-	provides  => {
-		set    => '_add_file',
-		clear  => '_clear',
-		count  => 'count',
-		get    => '_get_file',
-		exists => '_is_file',
-		delete => '_delete_files',
-		keys   => '_get_files_array',
+	traits  => ['Hash'],
+	is      => 'bare',
+	isa     => 'HashRef',
+	handles => {
+		'_add_file'        => 'set',
+		'_clear'           => 'clear',
+		'count'            => 'count',
+		'_get_file'        => 'get',
+		'_is_file'         => 'exists',
+		'_delete_files'    => 'delete',
+		'_get_files_array' => 'keys',
 	},
 	reader   => '_get_files_hashref',
 	writer   => '_set_files_hashref',
@@ -436,12 +435,17 @@ sub load_file {
 	my @files_list = <$fh>;
 	$fh->close;
 	my $file;
+	my $short_file;
 
 	# Insert list of files read into this object. Chomp on the way.
 	my @files = map { ## no critic 'ProhibitComplexMappings'
-		$file = $_;
+		$short_file = undef;
+		$file       = $_;
 		chomp $file;
-		$file;
+		print "Packlist file formatting: $file\n";
+		($short_file) = $file =~ m/\A (.*?) (?:\s+ \w+ = .*?)* \z/msx;
+		print "filtered to: $short_file\n";
+		$short_file || $file;
 	} @files_list;
 	foreach my $file_to_add (@files) {
 		$self->_add_file( $file_to_add, 1 );
@@ -758,10 +762,8 @@ File::List::Object requires no configuration files or environment variables.
 
 Dependencies of this module that are non-core in perl 5.8.1 (which is the 
 minimum version of Perl required) include 
-L<Moose|Moose> version 0.79, L<Exception::Class|Exception::Class> version 
-1.29, L<Params::Util|Params::Util> version 0.35, 
-L<MooseX::AttributeHelpers|MooseX::AttributeHelpers> version 0.17, and 
-L<version.pm|version> version 0.76.
+L<Moose|Moose> version 0.90, L<Exception::Class|Exception::Class> version 
+1.29, and L<Params::Util|Params::Util> version 0.35.
 
 =for readme stop
 
@@ -799,6 +801,9 @@ Copyright (c) 2009, Curtis Jewell C<< <csjewell@cpan.org> >>.
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself, either version
 5.8.1 or any later version. See L<perlartistic> and L<perlgpl>.
+
+The full text of the license can be found in the
+LICENSE file included with this module.
 
 =for readme stop
 

@@ -1,4 +1,4 @@
-File::List::Object version 0.200
+File::List::Object version 0.201
 
 DESCRIPTION
     This package provides for creating a list of files (from different
@@ -26,9 +26,8 @@ INSTALLATION
 
 DEPENDENCIES
     Dependencies of this module that are non-core in perl 5.8.1 (which is
-    the minimum version of Perl required) include Moose version 0.79,
-    Exception::Class version 1.29, Params::Util version 0.35,
-    MooseX::AttributeHelpers version 0.17, and version.pm version 0.76.
+    the minimum version of Perl required) include Moose version 0.90,
+    Exception::Class version 1.29, and Params::Util version 0.35.
 
 LICENSE AND COPYRIGHT
     Copyright (c) 2009, Curtis Jewell `<csjewell@cpan.org>'.
@@ -36,4 +35,7 @@ LICENSE AND COPYRIGHT
     This module is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself, either version 5.8.1 or any later
     version. See perlartistic and perlgpl.
+
+    The full text of the license can be found in the LICENSE file included
+    with this module.
 

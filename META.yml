@@ -1,28 +1,26 @@
 ---
-name: File-List-Object
-version: 0.200
+abstract: 'Object containing a list of files (filelist, packlist).'
 author:
   - 'Curtis Jewell <csjewell@cpan.org>'
-abstract: 'Object containing a list of files (filelist, packlist).'
-license: perl
-resources:
-  license: http://dev.perl.org/licenses/
 build_requires:
   Test::More: 0.61
-requires:
-  Exception::Class: 1.29
-  Moose: 0.79
-  MooseX::AttributeHelpers: 0.17
-  Params::Util: 0.35
-  perl: 5.008001
-  version: 0.76
 configure_requires:
-  Module::Build: 0.34
-provides:
-  File::List::Object:
-    file: lib/File/List/Object.pm
-    version: 0.200
-generated_by: Module::Build version 0.34
+  Module::Build: 0.32
+generated_by: 'Module::Build version 0.3505'
+license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
+name: File-List-Object
+provides:
+  File::List::Object:
+    file: lib/File/List/Object.pm
+    version: 0.201
+requires:
+  Exception::Class: 1.29
+  Moose: 0.9
+  Params::Util: 0.35
+  perl: 5.008001
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.201
